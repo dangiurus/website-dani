@@ -26,7 +26,7 @@ const Navbar = () => {
                             </a>
                         ))}
                         <a
-                            href="/contact"
+                            href="/src/pages/ContactPage"
                             className="px-4 py-2 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition-colors"
                         >
                             Cere Ofertă

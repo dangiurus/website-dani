@@ -1,6 +1,7 @@
-// src/components/sections/Contact.tsx
+// src/components/sections/ContactPage.tsx
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import { useState } from 'react';
+import MapComponent from "./MapComponent.tsx";
 
 interface ContactFormData {
     name: string;
@@ -41,7 +42,8 @@ const Contact = () => {
                         Contactează-ne
                     </h2>
                     <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                        Suntem aici să răspundem la toate întrebările tale. Contactează-ne și îți vom răspunde în cel mai scurt timp posibil.
+                        Suntem aici să răspundem la toate întrebările tale. Contactează-ne și îți vom răspunde în cel
+                        mai scurt timp posibil.
                     </p>
                 </div>
 
@@ -55,7 +57,7 @@ const Contact = () => {
 
                             <div className="space-y-6">
                                 <div className="flex items-start">
-                                    <Phone className="h-6 w-6 text-blue-600 mr-4 mt-1" />
+                                    <Phone className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
                                     <div>
                                         <p className="font-medium text-gray-900">Telefon</p>
                                         <p className="text-gray-600">+40 123 456 789</p>
@@ -63,7 +65,7 @@ const Contact = () => {
                                 </div>
 
                                 <div className="flex items-start">
-                                    <Mail className="h-6 w-6 text-blue-600 mr-4 mt-1" />
+                                    <Mail className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
                                     <div>
                                         <p className="font-medium text-gray-900">Email</p>
                                         <p className="text-gray-600">contact@metalcraft.ro</p>
@@ -71,20 +73,20 @@ const Contact = () => {
                                 </div>
 
                                 <div className="flex items-start">
-                                    <MapPin className="h-6 w-6 text-blue-600 mr-4 mt-1" />
+                                    <MapPin className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
                                     <div>
                                         <p className="font-medium text-gray-900">Adresă</p>
-                                        <p className="text-gray-600">Strada Exemplu, Nr. 123<br />Oraș, Județ</p>
+                                        <p className="text-gray-600">Strada Exemplu, Nr. 123<br/>Oraș, Județ</p>
                                     </div>
                                 </div>
 
                                 <div className="flex items-start">
-                                    <Clock className="h-6 w-6 text-blue-600 mr-4 mt-1" />
+                                    <Clock className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
                                     <div>
                                         <p className="font-medium text-gray-900">Program</p>
                                         <p className="text-gray-600">
-                                            Luni - Vineri: 08:00 - 17:00<br />
-                                            Sâmbătă: 09:00 - 14:00<br />
+                                            Luni - Vineri: 08:00 - 17:00<br/>
+                                            Sâmbătă: 09:00 - 14:00<br/>
                                             Duminică: Închis
                                         </p>
                                     </div>
@@ -182,7 +184,7 @@ const Contact = () => {
                                 className="w-full flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                             >
                                 Trimite Mesaj
-                                <Send className="ml-2 h-5 w-5" />
+                                <Send className="ml-2 h-5 w-5"/>
                             </button>
                         </form>
                     </div>
@@ -190,16 +192,11 @@ const Contact = () => {
 
                 {/* Map */}
                 <div className="mt-12">
-                    <div className="bg-white rounded-xl shadow-lg p-2 h-[400px]">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d91364.60811188738!2d26.0821973!3d44.4379425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1f93abf3cad4f%3A0xac0632e37c9ca628!2sBucure%C8%99ti!5e0!3m2!1sro!2sro!4v1673901397974!5m2!1sro!2sro"
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0 }}
-                            allowFullScreen
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            className="rounded-lg"
+                    <div className="bg-white rounded-xl shadow-lg p-2" style={{height: '400px'}}>
+                        <MapComponent
+                            center={[47.47469626558031, 22.79219282148873]} // Coordonatele pentru București
+                            zoom={13}
+                            popupText="Strada Exemplu, Nr. 123, București"
                         />
                     </div>
                 </div>

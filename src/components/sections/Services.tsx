@@ -1,4 +1,4 @@
-// src/components/sections/Services.tsx
+// src/components/sections/ServicesPage.tsx
 import { ArrowRight } from 'lucide-react';
 
 const services = [

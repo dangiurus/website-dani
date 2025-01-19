@@ -129,7 +129,7 @@ const WhyChooseUs = () => {
 
                 <div className="mt-16 text-center">
                     <a
-                        href="/contact"
+                        href="/src/pages/ContactPage"
                         className="inline-flex items-center px-8 py-4 border-2 border-white text-lg font-semibold rounded-lg hover:bg-white hover:text-blue-900 transition-colors duration-300"
                     >
                         Solicită o Ofertă Gratuită
