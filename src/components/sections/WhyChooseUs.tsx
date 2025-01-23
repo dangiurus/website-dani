@@ -1,5 +1,6 @@
 // src/components/sections/WhyChooseUs.tsx
 import { Settings, Clock, Award, Wallet, Wrench, HeartHandshake } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const reasons = [
     {
@@ -128,12 +129,13 @@ const WhyChooseUs = () => {
                 </div>
 
                 <div className="mt-16 text-center">
-                    <a
-                        href="/src/pages/ContactPage"
+                    <Link
+                        to="/contact"
+                        onClick={() => window.scrollTo(0, 0)}
                         className="inline-flex items-center px-8 py-4 border-2 border-white text-lg font-semibold rounded-lg hover:bg-white hover:text-blue-900 transition-colors duration-300"
                     >
                         Solicită o Ofertă Gratuită
-                    </a>
+                    </Link>
                 </div>
             </div>
         </section>

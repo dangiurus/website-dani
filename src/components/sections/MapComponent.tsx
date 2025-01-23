@@ -1,23 +1,48 @@
 // src/components/sections/MapComponent.tsx
+import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-
-// Fix pentru iconița marker-ului care nu se încarcă corect în React
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+import Skeleton from '../common/Skeleton';
 
 interface MapComponentProps {
-    center: [number, number]; // [latitude, longitude]
+    center: [number, number];
     zoom?: number;
     popupText?: string;
 }
 
 const MapComponent = ({ center, zoom = 13, popupText = "Ne găsiți aici!" }: MapComponentProps) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
+
+    useEffect(() => {
+        try {
+            delete (L.Icon.Default.prototype as any)._getIconUrl;
+            L.Icon.Default.mergeOptions({
+                iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+                iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            });
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error initializing map:', error);
+            setHasError(true);
+            setIsLoading(false);
+        }
+    }, []);
+
+    if (hasError) {
+        return (
+            <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg">
+                <p className="text-gray-600">Nu s-a putut încărca harta. Vă rugăm încercați mai târziu.</p>
+            </div>
+        );
+    }
+
+    if (isLoading) {
+        return <Skeleton className="w-full h-full rounded-lg" />;
+    }
+
     return (
         <MapContainer
             center={center}

@@ -1,7 +1,7 @@
-// src/components/sections/ContactPage.tsx
+// src/components/sections/Contact.tsx
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import { useState } from 'react';
-import MapComponent from "./MapComponent.tsx";
+import MapComponent from './MapComponent';
 
 interface ContactFormData {
     name: string;
@@ -9,6 +9,10 @@ interface ContactFormData {
     phone: string;
     subject: string;
     message: string;
+}
+
+interface FormErrors {
+    [key: string]: string;
 }
 
 const Contact = () => {
@@ -20,10 +24,76 @@ const Contact = () => {
         message: ''
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const [errors, setErrors] = useState<FormErrors>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+    const validateForm = (): boolean => {
+        const newErrors: FormErrors = {};
+
+        if (!formData.name.trim()) {
+            newErrors.name = 'Numele este obligatoriu';
+        }
+
+        if (!formData.email.trim()) {
+            newErrors.email = 'Email-ul este obligatoriu';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
+            newErrors.email = 'Adresa de email nu este validă';
+        }
+
+        if (formData.phone && !/^(\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\s|\.|-)?([0-9]{3}(\s|\.|-|)){2}$/i.test(formData.phone)) {
+            newErrors.phone = 'Numărul de telefon nu este valid';
+        }
+
+        if (!formData.subject) {
+            newErrors.subject = 'Vă rugăm să selectați un subiect';
+        }
+
+        if (!formData.message.trim()) {
+            newErrors.message = 'Mesajul este obligatoriu';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Aici vom adăuga logica de trimitere a formularului
-        console.log('Form submitted:', formData);
+
+        if (!validateForm()) {
+            return;
+        }
+
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            setSubmitStatus('success');
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                subject: '',
+                message: ''
+            });
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setSubmitStatus('error');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -32,6 +102,14 @@ const Contact = () => {
             ...prevState,
             [name]: value
         }));
+
+        if (errors[name]) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[name];
+                return newErrors;
+            });
+        }
     };
 
     return (
@@ -60,7 +138,9 @@ const Contact = () => {
                                     <Phone className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
                                     <div>
                                         <p className="font-medium text-gray-900">Telefon</p>
-                                        <p className="text-gray-600">+40 123 456 789</p>
+                                        <a href="tel:+40123456789" className="text-gray-600 hover:text-blue-600">
+                                            +40 123 456 789
+                                        </a>
                                     </div>
                                 </div>
 
@@ -68,7 +148,9 @@ const Contact = () => {
                                     <Mail className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
                                     <div>
                                         <p className="font-medium text-gray-900">Email</p>
-                                        <p className="text-gray-600">contact@metalcraft.ro</p>
+                                        <a href="mailto:contact@metalcraft.ro" className="text-gray-600 hover:text-blue-600">
+                                            contact@metalcraft.ro
+                                        </a>
                                     </div>
                                 </div>
 
@@ -101,32 +183,42 @@ const Contact = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Nume Complet
+                                        Nume Complet *
                                     </label>
                                     <input
                                         type="text"
                                         name="name"
                                         id="name"
                                         required
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                        className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
+                                            errors.name ? 'border-red-500' : 'border-gray-300'
+                                        }`}
                                         onChange={handleChange}
                                         value={formData.name}
                                     />
+                                    {errors.name && (
+                                        <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+                                    )}
                                 </div>
 
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Email
+                                        Email *
                                     </label>
                                     <input
                                         type="email"
                                         name="email"
                                         id="email"
                                         required
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                        className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
+                                            errors.email ? 'border-red-500' : 'border-gray-300'
+                                        }`}
                                         onChange={handleChange}
                                         value={formData.email}
                                     />
+                                    {errors.email && (
+                                        <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -137,21 +229,28 @@ const Contact = () => {
                                         type="tel"
                                         name="phone"
                                         id="phone"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                        className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
+                                            errors.phone ? 'border-red-500' : 'border-gray-300'
+                                        }`}
                                         onChange={handleChange}
                                         value={formData.phone}
                                     />
+                                    {errors.phone && (
+                                        <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+                                    )}
                                 </div>
 
                                 <div>
                                     <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Subiect
+                                        Subiect *
                                     </label>
                                     <select
                                         name="subject"
                                         id="subject"
                                         required
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                        className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
+                                            errors.subject ? 'border-red-500' : 'border-gray-300'
+                                        }`}
                                         onChange={handleChange}
                                         value={formData.subject}
                                     >
@@ -161,31 +260,66 @@ const Contact = () => {
                                         <option value="colaborare">Propunere colaborare</option>
                                         <option value="altele">Altele</option>
                                     </select>
+                                    {errors.subject && (
+                                        <p className="mt-1 text-sm text-red-500">{errors.subject}</p>
+                                    )}
                                 </div>
                             </div>
 
                             <div className="mb-6">
                                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Mesaj
+                                    Mesaj *
                                 </label>
                                 <textarea
                                     name="message"
                                     id="message"
                                     required
                                     rows={6}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                    className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
+                                        errors.message ? 'border-red-500' : 'border-gray-300'
+                                    }`}
                                     onChange={handleChange}
                                     value={formData.message}
                                 />
+                                {errors.message && (
+                                    <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+                                )}
                             </div>
 
                             <button
                                 type="submit"
-                                className="w-full flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                disabled={isSubmitting}
+                                className={`w-full flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white ${
+                                    isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+                                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors`}
                             >
-                                Trimite Mesaj
-                                <Send className="ml-2 h-5 w-5"/>
+                                {isSubmitting ? (
+                                    <>
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Se trimite...
+                                    </>
+                                ) : (
+                                    <>
+                                        Trimite Mesaj
+                                        <Send className="ml-2 h-5 w-5"/>
+                                    </>
+                                )}
                             </button>
+
+                            {submitStatus === 'success' && (
+                                <div className="mt-4 p-4 bg-green-100 text-green-700 rounded-md">
+                                    Mesajul a fost trimis cu succes! Vă vom contacta în cel mai scurt timp.
+                                </div>
+                            )}
+
+                            {submitStatus === 'error' && (
+                                <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-md">
+                                    A apărut o eroare la trimiterea mesajului. Vă rugăm să încercați din nou.
+                                </div>
+                            )}
                         </form>
                     </div>
                 </div>
@@ -194,7 +328,7 @@ const Contact = () => {
                 <div className="mt-12">
                     <div className="bg-white rounded-xl shadow-lg p-2" style={{height: '400px'}}>
                         <MapComponent
-                            center={[47.47469626558031, 22.79219282148873]} // Coordonatele pentru București
+                            center={[47.47469626558031, 22.79219282148873]}
                             zoom={13}
                             popupText="Strada Exemplu, Nr. 123, București"
                         />

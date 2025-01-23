@@ -1,6 +1,9 @@
 // src/pages/ProductsPage.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowRight, Search } from 'lucide-react';
+import Image from '../components/common/Image';
+import Skeleton from '../components/common/Skeleton';
+import { Link } from 'react-router-dom';
 
 interface Product {
     id: number;
@@ -12,13 +15,21 @@ interface Product {
     features: string[];
 }
 
-const productsPage: Product[] = [
+const categories = [
+    { id: 'toate', name: 'Toate Produsele' },
+    { id: 'garduri', name: 'Garduri Metalice' },
+    { id: 'porti', name: 'Porți Auto și Pietonale' },
+    { id: 'balustrade', name: 'Balustrade' },
+    { id: 'confectii', name: 'Confecții Metalice' }
+];
+
+const products: Product[] = [
     {
         id: 1,
         name: "Gard Metalic Modern",
         category: "garduri",
         description: "Gard metalic cu design modern, perfect pentru case contemporane.",
-        image: "/api/placeholder/400/300",
+        image: "/images/products/gard-modern.jpg",
         price: "de la 200 RON/ml",
         features: [
             "Design modern",
@@ -32,7 +43,7 @@ const productsPage: Product[] = [
         name: "Poartă Auto Culisantă",
         category: "porti",
         description: "Poartă auto culisantă cu automatizare și telecomandă.",
-        image: "/api/placeholder/400/300",
+        image: "/images/products/poarta-auto.jpg",
         price: "de la 3500 RON",
         features: [
             "Automatizare inclusă",
@@ -46,7 +57,7 @@ const productsPage: Product[] = [
         name: "Balustradă Inox",
         category: "balustrade",
         description: "Balustradă din inox pentru scări și balcoane.",
-        image: "/api/placeholder/400/300",
+        image: "/images/products/balustrada.jpg",
         price: "de la 250 RON/ml",
         features: [
             "Inox de calitate",
@@ -60,7 +71,7 @@ const productsPage: Product[] = [
         name: "Gard Metalic Clasic",
         category: "garduri",
         description: "Gard metalic în stil clasic, elegant și durabil.",
-        image: "/api/placeholder/400/300",
+        image: "/images/products/gard-clasic.jpg",
         price: "de la 180 RON/ml",
         features: [
             "Design clasic",
@@ -74,7 +85,7 @@ const productsPage: Product[] = [
         name: "Poartă Pietonală Decorativă",
         category: "porti",
         description: "Poartă pietonală cu elemente decorative și sistem de încuiere securizat.",
-        image: "/api/placeholder/400/300",
+        image: "/images/products/poarta-pietonala.jpg",
         price: "de la 1500 RON",
         features: [
             "Design decorativ",
@@ -85,21 +96,17 @@ const productsPage: Product[] = [
     }
 ];
 
-const categories = [
-    { id: 'toate', name: 'Toate Produsele' },
-    { id: 'garduri', name: 'Garduri Metalice' },
-    { id: 'porti', name: 'Porți Auto și Pietonale' },
-    { id: 'balustrade', name: 'Balustrade' },
-    { id: 'confectii', name: 'Confecții Metalice' }
-];
-
 const ProductCard = ({ product }: { product: Product }) => {
+    const [isLoading, setIsLoading] = useState(true);
+
     return (
         <div className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
             <div className="aspect-w-16 aspect-h-9">
-                <img
+                {isLoading && <Skeleton className="w-full h-full" />}
+                <Image
                     src={product.image}
                     alt={product.name}
+                    onLoadComplete={() => setIsLoading(false)}
                     className="w-full h-full object-cover"
                 />
             </div>
@@ -116,10 +123,16 @@ const ProductCard = ({ product }: { product: Product }) => {
                 </ul>
                 <div className="flex items-center justify-between mt-4">
                     <span className="text-blue-600 font-semibold">{product.price}</span>
-                    <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors">
-                        Detalii
+                    <Link
+                        to={`/contact?product=${product.id}`}
+                        onClick={() => window.scrollTo(0, 0)}
+                        className="inline-flex items-center px-4 py-2 border border-transparent
+                        text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700
+                        transition-colors"
+                    >
+                        Solicită Ofertă
                         <ArrowRight className="ml-2 h-4 w-4" />
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
@@ -129,8 +142,15 @@ const ProductCard = ({ product }: { product: Product }) => {
 const ProductsPage = () => {
     const [selectedCategory, setSelectedCategory] = useState('toate');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
-    const filteredProducts = productsPage.filter(product => {
+    useEffect(() => {
+        // Simulate initial loading
+        const timer = setTimeout(() => setIsLoading(false), 1000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    const filteredProducts = products.filter(product => {
         const matchesCategory = selectedCategory === 'toate' || product.category === selectedCategory;
         const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             product.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -142,8 +162,8 @@ const ProductsPage = () => {
             {/* Hero Section */}
             <div className="relative bg-blue-900 py-24">
                 <div className="absolute inset-0">
-                    <img
-                        src="/api/placeholder/1920/600"
+                    <Image
+                        src="/images/hero/products-hero.jpg"
                         alt="Products background"
                         className="w-full h-full object-cover opacity-20"
                     />
@@ -183,7 +203,8 @@ const ProductsPage = () => {
                             placeholder="Caută produse..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md
+                            focus:ring-blue-500 focus:border-blue-500"
                         />
                         <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                     </div>
@@ -193,12 +214,28 @@ const ProductsPage = () => {
             {/* Products Grid */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredProducts.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
+                    {isLoading ? (
+                        // Skeleton loading state
+                        Array.from({ length: 6 }).map((_, index) => (
+                            <div key={index} className="bg-white rounded-lg shadow-sm p-4">
+                                <Skeleton className="w-full h-48 mb-4" />
+                                <Skeleton className="w-3/4 h-6 mb-4" />
+                                <Skeleton className="w-full h-20 mb-4" />
+                                <div className="space-y-2">
+                                    <Skeleton className="w-full h-4" />
+                                    <Skeleton className="w-full h-4" />
+                                    <Skeleton className="w-3/4 h-4" />
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        filteredProducts.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                        ))
+                    )}
                 </div>
 
-                {filteredProducts.length === 0 && (
+                {!isLoading && filteredProducts.length === 0 && (
                     <div className="text-center py-12">
                         <p className="text-gray-500 text-lg">
                             Nu am găsit produse care să corespundă criteriilor de căutare.
@@ -216,13 +253,16 @@ const ProductsPage = () => {
                     <p className="text-lg text-blue-100 mb-8">
                         Contactează-ne pentru produse personalizate conform cerințelor tale specifice.
                     </p>
-                    <a
-                        href="/src/pages/ContactPage"
-                        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-900 bg-white hover:bg-gray-50 transition-colors"
+                    <Link
+                        to="/contact"
+                        onClick={() => window.scrollTo(0, 0)}
+                        className="inline-flex items-center px-6 py-3 border border-transparent
+                        text-base font-medium rounded-md text-blue-900 bg-white hover:bg-gray-50
+                        transition-colors"
                     >
                         Contactează-ne
                         <ArrowRight className="ml-2 h-5 w-5" />
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>

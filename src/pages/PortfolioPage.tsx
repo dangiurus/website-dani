@@ -1,6 +1,9 @@
 // src/pages/PortfolioPage.tsx
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Calendar, MapPin, ArrowRight } from 'lucide-react';
+import Image from '../components/common/Image';
+import Skeleton from '../components/common/Skeleton';
+import { Link } from 'react-router-dom';
 
 interface Project {
     id: number;
@@ -24,9 +27,9 @@ const projects: Project[] = [
         location: "București, Sector 1",
         date: "Decembrie 2024",
         images: [
-            "/api/placeholder/800/600",
-            "/api/placeholder/800/600",
-            "/api/placeholder/800/600"
+            "/images/portfolio/green-park-1.jpg",
+            "/images/portfolio/green-park-2.jpg",
+            "/images/portfolio/green-park-3.jpg"
         ],
         features: [
             "400 metri liniari de gard",
@@ -37,26 +40,7 @@ const projects: Project[] = [
         challenge: "Proiectul a necesitat integrarea sistemelor de securitate și control acces într-un design modern și uniform.",
         solution: "Am dezvoltat un sistem modular care combină estetica modernă cu funcționalitatea necesară unui ansamblu rezidențial."
     },
-    {
-        id: 2,
-        title: "Hala Industrială TechPro",
-        category: "hale",
-        description: "Construcție hală industrială cu cerințe specifice pentru producție.",
-        location: "Ploiești, Prahova",
-        date: "Octombrie 2024",
-        images: [
-            "/api/placeholder/800/600",
-            "/api/placeholder/800/600"
-        ],
-        features: [
-            "Suprafață 2000mp",
-            "Structură metalică optimizată",
-            "Sistem de ventilație industrial",
-            "Izolație termică premium"
-        ],
-        challenge: "Cerințe stricte de izolare termică și ventilație pentru procesele de producție specifice.",
-        solution: "Implementarea unui sistem complex de ventilație și utilizarea materialelor de izolație de ultimă generație."
-    }
+    // ... Add more projects with actual image paths
 ];
 
 const categories = [
@@ -68,16 +52,19 @@ const categories = [
 ];
 
 const ProjectCard = ({ project }: { project: Project }) => {
+    const [isLoading, setIsLoading] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     return (
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
             <div className="relative">
-                <img
+                {isLoading && <Skeleton className="w-full h-64" />}
+                <Image
                     src={project.images[currentImageIndex]}
                     alt={project.title}
                     className="w-full h-64 object-cover"
+                    onLoadComplete={() => setIsLoading(false)}
                 />
                 {project.images.length > 1 && (
                     <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
@@ -88,6 +75,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
                                 className={`w-2 h-2 rounded-full ${
                                     currentImageIndex === index ? 'bg-white' : 'bg-white/50'
                                 }`}
+                                aria-label={`Image ${index + 1}`}
                             />
                         ))}
                     </div>
@@ -150,6 +138,12 @@ const ProjectCard = ({ project }: { project: Project }) => {
 const PortfolioPage = () => {
     const [selectedCategory, setSelectedCategory] = useState('toate');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsLoading(false), 1000);
+        return () => clearTimeout(timer);
+    }, []);
 
     const filteredProjects = projects.filter(project => {
         const matchesCategory = selectedCategory === 'toate' || project.category === selectedCategory;
@@ -163,8 +157,8 @@ const PortfolioPage = () => {
             {/* Hero Section */}
             <div className="relative bg-blue-900 py-24">
                 <div className="absolute inset-0">
-                    <img
-                        src="/api/placeholder/1920/600"
+                    <Image
+                        src="/images/portfolio/hero-bg.jpg"
                         alt="Portfolio background"
                         className="w-full h-full object-cover opacity-20"
                     />
@@ -180,11 +174,10 @@ const PortfolioPage = () => {
                 </div>
             </div>
 
-            {/* Filters and Search */}
+            {/* Filters */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="flex flex-col md:flex-row gap-6 items-center justify-between mb-6">
-                    {/* Search */}
-                    <div className="w-full md:w-64 relative">
+                    <div className="w-full md:w-64">
                         <input
                             type="text"
                             placeholder="Caută proiecte..."
@@ -194,7 +187,6 @@ const PortfolioPage = () => {
                         />
                     </div>
 
-                    {/* Category Filters */}
                     <div className="flex flex-wrap gap-2 justify-center">
                         {categories.map((category) => (
                             <button
@@ -216,12 +208,27 @@ const PortfolioPage = () => {
             {/* Projects Grid */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredProjects.map((project) => (
-                        <ProjectCard key={project.id} project={project} />
-                    ))}
+                    {isLoading ? (
+                        Array.from({ length: 6 }).map((_, index) => (
+                            <div key={index} className="bg-white rounded-lg shadow-sm p-4">
+                                <Skeleton className="w-full h-48 mb-4" />
+                                <Skeleton className="w-3/4 h-6 mb-4" />
+                                <Skeleton className="w-full h-20 mb-4" />
+                                <div className="space-y-2">
+                                    <Skeleton className="w-full h-4" />
+                                    <Skeleton className="w-full h-4" />
+                                    <Skeleton className="w-3/4 h-4" />
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        filteredProjects.map((project) => (
+                            <ProjectCard key={project.id} project={project} />
+                        ))
+                    )}
                 </div>
 
-                {filteredProjects.length === 0 && (
+                {!isLoading && filteredProjects.length === 0 && (
                     <div className="text-center py-12">
                         <p className="text-gray-500 text-lg">
                             Nu am găsit proiecte care să corespundă criteriilor selectate.
@@ -239,13 +246,14 @@ const PortfolioPage = () => {
                     <p className="text-lg text-blue-100 mb-8">
                         Contactează-ne pentru o consultație gratuită și vezi cum putem aduce plus valoare proiectului tău.
                     </p>
-                    <a
-                        href="/contact"
+                    <Link
+                        to="/contact"
+                        onClick={() => window.scrollTo(0, 0)}
                         className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-900 bg-white hover:bg-gray-50 transition-colors"
                     >
                         Contactează-ne
                         <ArrowRight className="ml-2 h-5 w-5" />
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>
