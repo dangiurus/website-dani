@@ -79,15 +79,15 @@ const reasons = [
 
 const WhyChooseUs = () => {
     return (
-        <section className="py-20 bg-gradient-to-b from-blue-900 to-blue-800 text-white">
+        <section className="py-20 bg-gray-800 text-gray-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold sm:text-4xl mb-4">
+                    <h2 className="text-3xl font-bold text-gray-100 sm:text-4xl mb-4">
                         De Ce Să Ne Alegi
                     </h2>
-                    <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
                         Descoperă avantajele care ne diferențiază și care fac din noi
-                        alegerea ideală pentru proiectul tău de confecții metalice.
+                        alegerea ideală pentru proiectul tău.
                     </p>
                 </div>
 
@@ -97,18 +97,18 @@ const WhyChooseUs = () => {
                         return (
                             <div
                                 key={reason.id}
-                                className="bg-white/10 backdrop-blur-lg rounded-xl p-6 hover:bg-white/20 transition-all duration-300"
+                                className="bg-gray-700 backdrop-blur-lg rounded-xl p-6 hover:bg-gray-600 transition-all duration-300"
                             >
                                 <div className="flex items-center mb-4">
-                                    <div className="p-2 bg-blue-600 rounded-lg mr-4">
-                                        <Icon className="h-6 w-6 text-white" />
+                                    <div className="p-2 bg-orange-600 rounded-lg mr-4">
+                                        <Icon className="h-6 w-6 text-gray-100" />
                                     </div>
-                                    <h3 className="text-xl font-semibold">
+                                    <h3 className="text-xl font-semibold text-gray-100">
                                         {reason.title}
                                     </h3>
                                 </div>
 
-                                <p className="text-blue-100 mb-6">
+                                <p className="text-gray-400 mb-6">
                                     {reason.description}
                                 </p>
 
@@ -116,9 +116,9 @@ const WhyChooseUs = () => {
                                     {reason.details.map((detail, idx) => (
                                         <li
                                             key={idx}
-                                            className="flex items-center text-sm text-blue-100"
+                                            className="flex items-center text-sm text-gray-400"
                                         >
-                                            <div className="h-1.5 w-1.5 bg-blue-400 rounded-full mr-2" />
+                                            <div className="h-1.5 w-1.5 bg-orange-400 rounded-full mr-2" />
                                             {detail}
                                         </li>
                                     ))}
@@ -132,7 +132,7 @@ const WhyChooseUs = () => {
                     <Link
                         to="/contact"
                         onClick={() => window.scrollTo(0, 0)}
-                        className="inline-flex items-center px-8 py-4 border-2 border-white text-lg font-semibold rounded-lg hover:bg-white hover:text-blue-900 transition-colors duration-300"
+                        className="inline-flex items-center px-8 py-4 border-2 border-orange-400 text-lg font-semibold rounded-lg hover:bg-orange-400 hover:text-gray-900 transition-colors duration-300"
                     >
                         Solicită o Ofertă Gratuită
                     </Link>

@@ -1,8 +1,11 @@
-// src/pages/ContactPage.tsx
 import Contact from '../components/sections/Contact'
 
 const ContactPage = () => {
-    return <Contact />;
+    return (
+        <div className="bg-gray-900">
+            <Contact />
+        </div>
+    );
 };
 
 export default ContactPage;

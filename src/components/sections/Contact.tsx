@@ -1,4 +1,3 @@
-// src/components/sections/Contact.tsx
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import { useState } from 'react';
 import MapComponent from './MapComponent';
@@ -113,13 +112,13 @@ const Contact = () => {
     };
 
     return (
-        <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
+                    <h2 className="text-3xl font-bold text-gray-100 sm:text-4xl mb-4">
                         Contactează-ne
                     </h2>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-xl text-gray-400 max-w-2xl mx-auto">
                         Suntem aici să răspundem la toate întrebările tale. Contactează-ne și îți vom răspunde în cel
                         mai scurt timp posibil.
                     </p>
@@ -128,45 +127,45 @@ const Contact = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     {/* Contact Information */}
                     <div className="lg:col-span-1">
-                        <div className="bg-white rounded-xl shadow-lg p-8">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-8">
+                        <div className="bg-gray-800 rounded-xl shadow-lg p-8">
+                            <h3 className="text-xl font-semibold text-gray-100 mb-8">
                                 Informații de Contact
                             </h3>
 
                             <div className="space-y-6">
                                 <div className="flex items-start">
-                                    <Phone className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
+                                    <Phone className="h-6 w-6 text-orange-400 mr-4 mt-1"/>
                                     <div>
-                                        <p className="font-medium text-gray-900">Telefon</p>
-                                        <a href="tel:+40123456789" className="text-gray-600 hover:text-blue-600">
+                                        <p className="font-medium text-gray-100">Telefon</p>
+                                        <a href="tel:+40123456789" className="text-gray-400 hover:text-orange-400">
                                             +40 123 456 789
                                         </a>
                                     </div>
                                 </div>
 
                                 <div className="flex items-start">
-                                    <Mail className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
+                                    <Mail className="h-6 w-6 text-orange-400 mr-4 mt-1"/>
                                     <div>
-                                        <p className="font-medium text-gray-900">Email</p>
-                                        <a href="mailto:contact@metalcraft.ro" className="text-gray-600 hover:text-blue-600">
+                                        <p className="font-medium text-gray-100">Email</p>
+                                        <a href="mailto:contact@metalcraft.ro" className="text-gray-400 hover:text-orange-400">
                                             contact@metalcraft.ro
                                         </a>
                                     </div>
                                 </div>
 
                                 <div className="flex items-start">
-                                    <MapPin className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
+                                    <MapPin className="h-6 w-6 text-orange-400 mr-4 mt-1"/>
                                     <div>
-                                        <p className="font-medium text-gray-900">Adresă</p>
-                                        <p className="text-gray-600">Strada Exemplu, Nr. 123<br/>Oraș, Județ</p>
+                                        <p className="font-medium text-gray-100">Adresă</p>
+                                        <p className="text-gray-400">Strada Exemplu, Nr. 123<br/>Oraș, Județ</p>
                                     </div>
                                 </div>
 
                                 <div className="flex items-start">
-                                    <Clock className="h-6 w-6 text-blue-600 mr-4 mt-1"/>
+                                    <Clock className="h-6 w-6 text-orange-400 mr-4 mt-1"/>
                                     <div>
-                                        <p className="font-medium text-gray-900">Program</p>
-                                        <p className="text-gray-600">
+                                        <p className="font-medium text-gray-100">Program</p>
+                                        <p className="text-gray-400">
                                             Luni - Vineri: 08:00 - 17:00<br/>
                                             Sâmbătă: 09:00 - 14:00<br/>
                                             Duminică: Închis
@@ -179,10 +178,10 @@ const Contact = () => {
 
                     {/* Contact Form */}
                     <div className="lg:col-span-2">
-                        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8">
+                        <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl shadow-lg p-8">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                                         Nume Complet *
                                     </label>
                                     <input
@@ -190,8 +189,8 @@ const Contact = () => {
                                         name="name"
                                         id="name"
                                         required
-                                        className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                                            errors.name ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full px-4 py-2 bg-gray-700 border-gray-600 rounded-md text-gray-200 focus:ring-orange-500 focus:border-orange-500 ${
+                                            errors.name ? 'border-red-500' : 'border-gray-600'
                                         }`}
                                         onChange={handleChange}
                                         value={formData.name}
@@ -202,7 +201,7 @@ const Contact = () => {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                                         Email *
                                     </label>
                                     <input
@@ -210,8 +209,8 @@ const Contact = () => {
                                         name="email"
                                         id="email"
                                         required
-                                        className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                                            errors.email ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full px-4 py-2 bg-gray-700 border-gray-600 rounded-md text-gray-200 focus:ring-orange-500 focus:border-orange-500 ${
+                                            errors.email ? 'border-red-500' : 'border-gray-600'
                                         }`}
                                         onChange={handleChange}
                                         value={formData.email}
@@ -222,15 +221,15 @@ const Contact = () => {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
                                         Telefon
                                     </label>
                                     <input
                                         type="tel"
                                         name="phone"
                                         id="phone"
-                                        className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                                            errors.phone ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full px-4 py-2 bg-gray-700 border-gray-600 rounded-md text-gray-200 focus:ring-orange-500 focus:border-orange-500 ${
+                                            errors.phone ? 'border-red-500' : 'border-gray-600'
                                         }`}
                                         onChange={handleChange}
                                         value={formData.phone}
@@ -241,15 +240,15 @@ const Contact = () => {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
                                         Subiect *
                                     </label>
                                     <select
                                         name="subject"
                                         id="subject"
                                         required
-                                        className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                                            errors.subject ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full px-4 py-2 bg-gray-700 border-gray-600 rounded-md text-gray-200 focus:ring-orange-500 focus:border-orange-500 ${
+                                            errors.subject ? 'border-red-500' : 'border-gray-600'
                                         }`}
                                         onChange={handleChange}
                                         value={formData.subject}
@@ -267,7 +266,7 @@ const Contact = () => {
                             </div>
 
                             <div className="mb-6">
-                                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
                                     Mesaj *
                                 </label>
                                 <textarea
@@ -275,8 +274,8 @@ const Contact = () => {
                                     id="message"
                                     required
                                     rows={6}
-                                    className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                                        errors.message ? 'border-red-500' : 'border-gray-300'
+                                    className={`w-full px-4 py-2 bg-gray-700 border-gray-600 rounded-md text-gray-200 focus:ring-orange-500 focus:border-orange-500 ${
+                                        errors.message ? 'border-red-500' : 'border-gray-600'
                                     }`}
                                     onChange={handleChange}
                                     value={formData.message}
@@ -290,8 +289,8 @@ const Contact = () => {
                                 type="submit"
                                 disabled={isSubmitting}
                                 className={`w-full flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white ${
-                                    isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-                                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors`}
+                                    isSubmitting ? 'bg-orange-400 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-700'
+                                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors`}
                             >
                                 {isSubmitting ? (
                                     <>
@@ -310,13 +309,13 @@ const Contact = () => {
                             </button>
 
                             {submitStatus === 'success' && (
-                                <div className="mt-4 p-4 bg-green-100 text-green-700 rounded-md">
+                                <div className="mt-4 p-4 bg-green-900 text-green-200 rounded-md">
                                     Mesajul a fost trimis cu succes! Vă vom contacta în cel mai scurt timp.
                                 </div>
                             )}
 
                             {submitStatus === 'error' && (
-                                <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-md">
+                                <div className="mt-4 p-4 bg-red-900 text-red-200 rounded-md">
                                     A apărut o eroare la trimiterea mesajului. Vă rugăm să încercați din nou.
                                 </div>
                             )}
@@ -326,7 +325,7 @@ const Contact = () => {
 
                 {/* Map */}
                 <div className="mt-12">
-                    <div className="bg-white rounded-xl shadow-lg p-2" style={{height: '400px'}}>
+                    <div className="bg-gray-800 rounded-xl shadow-lg p-2" style={{height: '400px'}}>
                         <MapComponent
                             center={[47.47469626558031, 22.79219282148873]}
                             zoom={13}

@@ -1,4 +1,3 @@
-// src/components/sections/MapComponent.tsx
 import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -33,8 +32,8 @@ const MapComponent = ({ center, zoom = 13, popupText = "Ne găsiți aici!" }: Ma
 
     if (hasError) {
         return (
-            <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg">
-                <p className="text-gray-600">Nu s-a putut încărca harta. Vă rugăm încercați mai târziu.</p>
+            <div className="w-full h-full flex items-center justify-center bg-gray-800 rounded-lg">
+                <p className="text-gray-400">Nu s-a putut încărca harta. Vă rugăm încercați mai târziu.</p>
             </div>
         );
     }
@@ -57,7 +56,7 @@ const MapComponent = ({ center, zoom = 13, popupText = "Ne găsiți aici!" }: Ma
             <Marker position={center}>
                 <Popup>
                     <div className="text-center">
-                        <strong>MetalCraft Workshop</strong>
+                        <strong className="text-gray-900">MetalCraft Workshop</strong>
                         <br />
                         {popupText}
                     </div>

@@ -1,4 +1,3 @@
-// src/components/common/FormInput.tsx
 import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
 interface BaseFormInputProps {
@@ -20,13 +19,13 @@ const FormInput = ({
                        className = '',
                        ...props
                    }: FormInputProps) => {
-    const baseClassName = `w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-        error ? 'border-red-500' : 'border-gray-300'
-    } ${className}`;
+    const baseClassName = `w-full px-4 py-2 bg-gray-700 border rounded-md focus:ring-orange-500 focus:border-orange-500 ${
+        error ? 'border-red-500' : 'border-gray-600'
+    } text-gray-200 ${className}`;
 
     return (
         <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
                 {label}
             </label>
             {multiline ? (

@@ -1,46 +1,95 @@
-// src/components/sections/Services.tsx
 import { ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import Image from '../common/Image';
 import Skeleton from '../common/Skeleton';
 import { Link } from 'react-router-dom';
 
+// Import all images
+import gatesImage from '../../assets/images/services/gates.jpg';
+import autoGatesImage from '../../assets/images/services/auto-gates.jpg';
+import pedestrianGatesImage from '../../assets/images/services/pedestrian-gates.jpg';
+import industrialImage from '../../assets/images/services/industrial.jpg';
+import railingsImage from '../../assets/images/services/railings.jpg';
+import customImage from '../../assets/images/services/custom.jpg';
+
 const services = [
     {
         id: 1,
         title: 'Garduri Metalice',
-        description: 'Garduri metalice personalizate cu design modern și durabil. Materiale de calitate și finisaje perfecte.',
-        image: '/images/services/gates.jpg',
+        shortDescription: 'Garduri metalice personalizate cu design modern și durabil.',
+        fullDescription: 'Garduri metalice personalizate cu design modern sau clasic. Execuție la cele mai înalte standarde, cu posibilitatea de a include decupaje laser și modele unice.',
+        image: gatesImage,
+        features: [
+            "Decupaje laser personalizate",
+            "Finisaje de înaltă calitate",
+            "Tratamente anticorozive",
+            "Montaj profesional inclus"
+        ]
     },
     {
         id: 2,
         title: 'Porți Auto',
-        description: 'Porți auto automatizate sau manuale, adaptate perfect nevoilor și spațiului dumneavoastră.',
-        image: '/images/services/auto-gates.jpg',
+        shortDescription: 'Porți auto automatizate sau manuale, adaptate perfect nevoilor dvs.',
+        fullDescription: 'Porți auto automatizate sau manuale, adaptate perfect nevoilor și spațiului dumneavoastră. Instalare profesională și sisteme de siguranță incluse.',
+        image: autoGatesImage,
+        features: [
+            "Sisteme de automatizare",
+            "Control acces inteligent",
+            "Senzori de siguranță",
+            "Telecomandă și interfon"
+        ]
     },
     {
         id: 3,
         title: 'Porți Pietonale',
-        description: 'Porți pietonale elegante și funcționale, integrate perfect cu designul gardului.',
-        image: '/images/services/pedestrian-gates.jpg',
+        shortDescription: 'Porți pietonale elegante și funcționale.',
+        fullDescription: 'Porți pietonale elegante și funcționale, integrate perfect cu designul gardului. Sisteme de acces moderne și sigure.',
+        image: pedestrianGatesImage,
+        features: [
+            "Design personalizat",
+            "Sisteme de interfonie",
+            "Acces cu cartelă/amprentă",
+            "Închidere automată"
+        ]
     },
     {
         id: 4,
         title: 'Hale Industriale',
-        description: 'Construcție și montaj hale industriale la cheie. Proiectare, execuție și montaj.',
-        image: '/images/services/industrial.jpg',
+        shortDescription: 'Construcție și montaj hale industriale la cheie.',
+        fullDescription: 'Construcție și montaj hale industriale la cheie. De la proiectare până la execuție, oferim soluții complete pentru spații industriale.',
+        image: industrialImage,
+        features: [
+            "Proiectare completă",
+            "Structuri metalice durabile",
+            "Sisteme de ventilație",
+            "Izolație termică eficientă"
+        ]
     },
     {
         id: 5,
         title: 'Balustrade',
-        description: 'Balustrade metalice pentru scări și balcoane, cu design modern sau clasic.',
-        image: '/images/services/railings.jpg',
+        shortDescription: 'Balustrade metalice pentru scări și balcoane.',
+        fullDescription: 'Balustrade metalice pentru scări și balcoane, cu design modern sau clasic. Siguranță și estetică îmbinate perfect.',
+        image: railingsImage,
+        features: [
+            "Design modern sau clasic",
+            "Materiale premium",
+            "Montaj sigur",
+            "Finisaje diverse"
+        ]
     },
     {
         id: 6,
         title: 'Confecții Metalice',
-        description: 'Confecții metalice la comandă pentru orice tip de proiect. Adaptăm soluțiile la cerințele dvs.',
-        image: '/images/services/custom.jpg',
+        shortDescription: 'Confecții metalice la comandă pentru orice tip de proiect.',
+        fullDescription: 'Confecții metalice la comandă pentru orice tip de proiect. Adaptăm soluțiile la cerințele specifice ale fiecărui client.',
+        image: customImage,
+        features: [
+            "Proiecte personalizate",
+            "Execuție la comandă",
+            "Consultanță tehnică",
+            "Termene respectate"
+        ]
     }
 ];
 
@@ -48,7 +97,7 @@ const ServiceCard = ({ service }: { service: typeof services[0] }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     return (
-        <div className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 bg-gray-800">
             {isLoading && (
                 <Skeleton className="w-full h-64" />
             )}
@@ -61,18 +110,75 @@ const ServiceCard = ({ service }: { service: typeof services[0] }) => {
                 />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/0 p-6 flex flex-col justify-end">
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold text-gray-100 mb-2">
                     {service.title}
                 </h3>
-                <p className="text-gray-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {service.description}
+                <p className="text-gray-300 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {service.shortDescription}
                 </p>
                 <Link
-                    to={`/services#${service.id}`}
-                    onClick={() => window.scrollTo(0, 0)}
-                    className="inline-flex items-center text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    to={`#service-${service.id}`}
+                    onClick={() => {
+                        const element = document.getElementById(`service-${service.id}`);
+                        element?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="inline-flex items-center text-orange-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 >
-                    Află mai multe
+                    Vezi detalii
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+            </div>
+        </div>
+    );
+};
+
+const DetailedService = ({ service, index }: { service: typeof services[0], index: number }) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const isEven = index % 2 === 0;
+
+    return (
+        <div
+            id={`service-${service.id}`}
+            className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 items-center py-16 border-t border-gray-700 first:border-t-0`}
+        >
+            <div className="w-full lg:w-1/2">
+                <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-xl shadow-lg">
+                    {isLoading && (
+                        <Skeleton className="w-full h-full" />
+                    )}
+                    <Image
+                        src={service.image}
+                        alt={service.title}
+                        onLoadComplete={() => setIsLoading(false)}
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+            </div>
+
+            <div className="w-full lg:w-1/2">
+                <h3 className="text-2xl font-bold text-gray-100 mb-4">
+                    {service.title}
+                </h3>
+                <p className="text-lg text-gray-400 mb-6">
+                    {service.fullDescription}
+                </p>
+                <ul className="space-y-3 mb-8">
+                    {service.features.map((feature, index) => (
+                        <li
+                            key={index}
+                            className="flex items-center text-gray-400"
+                        >
+                            <ArrowRight className="h-5 w-5 text-orange-400 mr-2" />
+                            {feature}
+                        </li>
+                    ))}
+                </ul>
+                <Link
+                    to="/contact"
+                    onClick={() => window.scrollTo(0, 0)}
+                    className="inline-flex items-center px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-md transition-colors"
+                >
+                    Solicită Ofertă
                     <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
             </div>
@@ -82,22 +188,46 @@ const ServiceCard = ({ service }: { service: typeof services[0] }) => {
 
 const Services = () => {
     return (
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Overview Grid Section */}
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
+                    <h2 className="text-3xl font-bold text-gray-100 sm:text-4xl mb-4">
                         Serviciile Noastre
                     </h2>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-xl text-gray-400 max-w-2xl mx-auto">
                         Oferim o gamă completă de servicii în domeniul confecțiilor metalice,
                         cu focus pe calitate și satisfacția clientului.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
                     {services.map((service) => (
                         <ServiceCard key={service.id} service={service} />
                     ))}
+                </div>
+
+                {/* Detailed Section */}
+                <div className="mt-20">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl font-bold text-gray-100 sm:text-4xl mb-4">
+                            Detalii Servicii
+                        </h2>
+                        <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                            Descoperă mai multe despre serviciile noastre și cum putem să te ajutăm
+                            să realizezi proiectul tău.
+                        </p>
+                    </div>
+
+                    <div className="space-y-20">
+                        {services.map((service, index) => (
+                            <DetailedService
+                                key={service.id}
+                                service={service}
+                                index={index}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

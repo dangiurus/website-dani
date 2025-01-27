@@ -1,8 +1,8 @@
-// src/App.tsx
+// App.tsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
 import Layout from './components/layout/Layout'
-import ErrorBoundary from './components/common/ErrorBoundary.tsx'
+import ErrorBoundary from './components/common/ErrorBoundary'
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
@@ -11,8 +11,8 @@ const ProductsPage = lazy(() => import('./pages/ProductsPage'))
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'))
 
 const LoadingSpinner = () => (
-    <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-600"></div>
+    <div className="flex items-center justify-center h-screen bg-gray-900">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-orange-400"></div>
     </div>
 )
 
@@ -38,4 +38,4 @@ function App() {
     );
 }
 
-export default App
+export default App;

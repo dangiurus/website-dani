@@ -1,5 +1,4 @@
-// src/pages/PortfolioPage.tsx
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import Image from '../components/common/Image';
 import Skeleton from '../components/common/Skeleton';
@@ -39,8 +38,7 @@ const projects: Project[] = [
         ],
         challenge: "Proiectul a necesitat integrarea sistemelor de securitate și control acces într-un design modern și uniform.",
         solution: "Am dezvoltat un sistem modular care combină estetica modernă cu funcționalitatea necesară unui ansamblu rezidențial."
-    },
-    // ... Add more projects with actual image paths
+    }
 ];
 
 const categories = [
@@ -57,7 +55,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     return (
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div className="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
             <div className="relative">
                 {isLoading && <Skeleton className="w-full h-64" />}
                 <Image
@@ -82,12 +80,12 @@ const ProjectCard = ({ project }: { project: Project }) => {
                 )}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
                     <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                    <p className="text-gray-200">{project.category}</p>
+                    <p className="text-gray-300">{project.category}</p>
                 </div>
             </div>
 
             <div className="p-6">
-                <div className="flex items-center gap-4 mb-4 text-sm text-gray-600">
+                <div className="flex items-center gap-4 mb-4 text-sm text-gray-400">
                     <div className="flex items-center">
                         <MapPin className="h-4 w-4 mr-1" />
                         {project.location}
@@ -98,35 +96,35 @@ const ProjectCard = ({ project }: { project: Project }) => {
                     </div>
                 </div>
 
-                <p className="text-gray-600 mb-4">{project.description}</p>
+                <p className="text-gray-400 mb-4">{project.description}</p>
 
                 <div className={`transition-all duration-300 ${isExpanded ? 'max-h-[1000px]' : 'max-h-0'} overflow-hidden`}>
                     <div className="space-y-4 mb-4">
                         <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Caracteristici Principale</h4>
+                            <h4 className="font-semibold text-gray-100 mb-2">Caracteristici Principale</h4>
                             <ul className="space-y-2">
                                 {project.features.map((feature, index) => (
-                                    <li key={index} className="flex items-center text-gray-600">
-                                        <ArrowRight className="h-4 w-4 text-blue-600 mr-2" />
+                                    <li key={index} className="flex items-center text-gray-400">
+                                        <ArrowRight className="h-4 w-4 text-orange-400 mr-2" />
                                         {feature}
                                     </li>
                                 ))}
                             </ul>
                         </div>
                         <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Provocarea</h4>
-                            <p className="text-gray-600">{project.challenge}</p>
+                            <h4 className="font-semibold text-gray-100 mb-2">Provocarea</h4>
+                            <p className="text-gray-400">{project.challenge}</p>
                         </div>
                         <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Soluția</h4>
-                            <p className="text-gray-600">{project.solution}</p>
+                            <h4 className="font-semibold text-gray-100 mb-2">Soluția</h4>
+                            <p className="text-gray-400">{project.solution}</p>
                         </div>
                     </div>
                 </div>
 
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="text-blue-600 font-medium hover:text-blue-700 transition-colors"
+                    className="text-orange-400 font-medium hover:text-orange-500 transition-colors"
                 >
                     {isExpanded ? 'Vezi mai puțin' : 'Vezi mai mult'}
                 </button>
@@ -153,9 +151,9 @@ const PortfolioPage = () => {
     });
 
     return (
-        <div className="bg-gray-50">
+        <div className="bg-gray-900">
             {/* Hero Section */}
-            <div className="relative bg-blue-900 py-24">
+            <div className="relative bg-gray-800 py-24">
                 <div className="absolute inset-0">
                     <Image
                         src="/images/portfolio/hero-bg.jpg"
@@ -164,10 +162,10 @@ const PortfolioPage = () => {
                     />
                 </div>
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                    <h1 className="text-4xl md:text-5xl font-bold text-gray-100 mb-6">
                         Portofoliu Proiecte
                     </h1>
-                    <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
                         Descoperă proiectele noastre finalizate și vezi cum putem transforma
                         viziunea ta în realitate.
                     </p>
@@ -183,7 +181,8 @@ const PortfolioPage = () => {
                             placeholder="Caută proiecte..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-2 bg-gray-800 border-gray-700
+                           text-gray-100 rounded-md focus:ring-orange-500 focus:border-orange-500"
                         />
                     </div>
 
@@ -194,8 +193,8 @@ const PortfolioPage = () => {
                                 onClick={() => setSelectedCategory(category.id)}
                                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                                     selectedCategory === category.id
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                                        ? 'bg-orange-600 text-white'
+                                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                                 }`}
                             >
                                 {category.name}
@@ -210,7 +209,7 @@ const PortfolioPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {isLoading ? (
                         Array.from({ length: 6 }).map((_, index) => (
-                            <div key={index} className="bg-white rounded-lg shadow-sm p-4">
+                            <div key={index} className="bg-gray-800 rounded-lg shadow-sm p-4">
                                 <Skeleton className="w-full h-48 mb-4" />
                                 <Skeleton className="w-3/4 h-6 mb-4" />
                                 <Skeleton className="w-full h-20 mb-4" />
@@ -230,7 +229,7 @@ const PortfolioPage = () => {
 
                 {!isLoading && filteredProjects.length === 0 && (
                     <div className="text-center py-12">
-                        <p className="text-gray-500 text-lg">
+                        <p className="text-gray-400 text-lg">
                             Nu am găsit proiecte care să corespundă criteriilor selectate.
                         </p>
                     </div>
@@ -238,18 +237,19 @@ const PortfolioPage = () => {
             </div>
 
             {/* CTA Section */}
-            <div className="bg-blue-900 py-16">
+            <div className="bg-gray-800 py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h2 className="text-3xl font-bold text-white mb-4">
+                    <h2 className="text-3xl font-bold text-gray-100 mb-4">
                         Pregătit să Începem Proiectul Tău?
                     </h2>
-                    <p className="text-lg text-blue-100 mb-8">
+                    <p className="text-lg text-gray-400 mb-8">
                         Contactează-ne pentru o consultație gratuită și vezi cum putem aduce plus valoare proiectului tău.
                     </p>
                     <Link
                         to="/contact"
                         onClick={() => window.scrollTo(0, 0)}
-                        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-900 bg-white hover:bg-gray-50 transition-colors"
+                        className="inline-flex items-center px-6 py-3 bg-orange-600
+                       hover:bg-orange-700 text-white rounded-md transition-colors"
                     >
                         Contactează-ne
                         <ArrowRight className="ml-2 h-5 w-5" />

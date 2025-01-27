@@ -1,4 +1,3 @@
-// src/components/sections/Workflow.tsx
 import { Ruler, Pencil, Wrench, Truck, Shield } from 'lucide-react';
 
 const steps = [
@@ -66,13 +65,13 @@ const steps = [
 
 const Workflow = () => {
     return (
-        <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
+                    <h2 className="text-3xl font-bold text-gray-100 sm:text-4xl mb-4">
                         Procesul Nostru de Lucru
                     </h2>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
                         Descoperă cum transformăm ideile în realitate printr-un proces bine definit și
                         transparent, care asigură calitatea și satisfacția clienților noștri.
                     </p>
@@ -80,7 +79,7 @@ const Workflow = () => {
 
                 <div className="relative">
                     {/* Connecting Line */}
-                    <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-blue-200 -translate-y-1/2" />
+                    <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gray-700 -translate-y-1/2" />
 
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
                         {steps.map((step) => {
@@ -88,31 +87,31 @@ const Workflow = () => {
                             return (
                                 <div
                                     key={step.id}
-                                    className="relative bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
+                                    className="relative bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-orange-600"
                                 >
                                     {/* Icon Circle */}
-                                    <div className="relative z-10 -mt-14 mb-6 mx-auto bg-blue-600 rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
-                                        <Icon className="h-8 w-8 text-white" />
+                                    <div className="relative z-10 -mt-14 mb-6 mx-auto bg-orange-600 rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+                                        <Icon className="h-8 w-8 text-gray-100" />
                                     </div>
 
                                     {/* Step Number */}
-                                    <div className="absolute top-4 right-4 text-3xl font-bold text-gray-200">
+                                    <div className="absolute top-4 right-4 text-3xl font-bold text-gray-700">
                                         {step.id}
                                     </div>
 
-                                    <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
+                                    <h3 className="text-xl font-bold text-gray-100 mb-4 text-center">
                                         {step.title}
                                     </h3>
-                                    <p className="text-gray-600 mb-6 text-center">
+                                    <p className="text-gray-400 mb-6 text-center">
                                         {step.description}
                                     </p>
                                     <ul className="space-y-2">
                                         {step.details.map((detail, idx) => (
                                             <li
                                                 key={idx}
-                                                className="flex items-center text-sm text-gray-600"
+                                                className="flex items-center text-sm text-gray-400"
                                             >
-                                                <div className="h-1.5 w-1.5 bg-blue-600 rounded-full mr-2" />
+                                                <div className="h-1.5 w-1.5 bg-orange-400 rounded-full mr-2" />
                                                 {detail}
                                             </li>
                                         ))}
